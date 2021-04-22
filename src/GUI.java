@@ -1,141 +1,182 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class GUI {
     public static void main(String[] args) {
 
-        char[][] map = new char[][]  {
-                                {'G', 'G', 'G'},
-                                {'M', 'S', 'M'},
-                                {'T', 'T', 'T'}
-                            };
+        ArrayList<String> result = new ArrayList<>();
+
+        try (FileReader f = new FileReader("./assets/map.txt")) {
+            StringBuffer sb = new StringBuffer();
+            while (f.ready()) {
+                char c = (char) f.read();
+                if (c == '\n') {
+                    result.add(sb.toString());
+                    sb = new StringBuffer();
+                } else {
+                    sb.append(c);
+                }
+            }
+            if (sb.length() > 0) {
+                result.add(sb.toString());
+            }
+        } catch (IOException e) {
+
+        }
+
+        String[][] result_char = new String[result.size()][result.get(0).length()];
+
+        for (int i = 0; i < result.size(); i++) {
+            result_char[i] = result.get(i).split(" ");
+        }
+
+        for (int i = 0; i < result_char.length; i++) {
+            for (int j = 0; j < result_char[i].length; j++) {
+                //System.out.printf("%s", result_char[i][j]);
+                result_char[i][j] = result_char[i][j].replaceAll("[^a-zA-Z0-9]","");
+            }
+            //System.out.printf("\n");
+        }
 
         ImageIcon ground = new ImageIcon("./resource/ground.png");
         ImageIcon tundra = new ImageIcon("./resource/tundra.png");
         ImageIcon mount = new ImageIcon("./resource/mount.png");
         ImageIcon sea = new ImageIcon("./resource/sea.png");
         ImageIcon invent_slot = new ImageIcon("./resource/inventory.png");
-        ImageIcon P = new ImageIcon("./resource/P.png");
+        //ImageIcon player = new ImageIcon("./resource/player.png");
 
         // FRAME
-        JFrame frame1 = new JFrame();
-        frame1.setSize(1500, 750);
-        frame1.setLayout(null);
-        frame1.setVisible(true);
-        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame window = new JFrame();
+        window.setSize(1500, 750);
+        window.setLayout(null);
+        window.setVisible(true);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // BUTTON
-        JButton button1 = new JButton("W");
-        button1.setBounds(120, 100, 50, 50);
-        frame1.add(button1);
+        JButton button_W = new JButton("W");
+        button_W.setBounds(120, 100, 50, 50);
+        window.add(button_W);
 
-        JButton button2 = new JButton("S");
-        button2.setBounds(120, 160, 50, 50);
-        frame1.add(button2);
+        JButton button_S = new JButton("S");
+        button_S.setBounds(120, 160, 50, 50);
+        window.add(button_S);
 
-        JButton button3 = new JButton("A");
-        button3.setBounds(60, 160, 50, 50);
-        frame1.add(button3);
+        JButton button_A = new JButton("A");
+        button_A.setBounds(60, 160, 50, 50);
+        window.add(button_A);
 
-        JButton button4 = new JButton("D");
-        button4.setBounds(180, 160, 50, 50);
-        frame1.add(button4);
+        JButton button_D = new JButton("D");
+        button_D.setBounds(180, 160, 50, 50);
+        window.add(button_D);
 
-        JButton button5 = new JButton("Execute Command");
-        button5.setBounds(40, 300, 200, 25);
-        frame1.add(button5);
+        JButton button_exec = new JButton("Execute Command");
+        button_exec.setBounds(40, 300, 200, 25);
+        window.add(button_exec);
 
         // PANEL
-        JLayeredPane panel = new JLayeredPane();
-        panel.setPreferredSize(new Dimension(900, 450));
-        panel.setLayout(null);
+        JLayeredPane panel_Map = new JLayeredPane();
+        panel_Map.setPreferredSize(new Dimension(900, 450));
+        panel_Map.setLayout(null);
 
-        JLabel label_x = new JLabel();
-        label_x.setBounds(0,0,32,32);
-        label_x.setIcon(P);
-        panel.add(label_x,0);
+        /////
 
-        JLabel label_y = new JLabel();
-        label_y.setBounds(16,16,32,32);
-        label_y.setIcon(ground);
-        panel.add(label_y,1);
+        //int counter = 0;
+        for (int i = 0; i < result_char.length; i++) {
+            for (int j = 0; j < result_char[i].length; j++) {
+                JLabel label_Tile = new JLabel();
+                label_Tile.setBounds(j * 32,i * 32,32,32);
 
-        JScrollPane pane = new JScrollPane(panel);
-        pane.setBounds(280,10,900,450);
-        pane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        pane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        frame1.add(pane);
+                if (result_char[i][j].equals("G")) {
+                    label_Tile.setIcon(ground);
+                } else if (result_char[i][j].equals("M")) {
+                    label_Tile.setIcon(mount);
+                } else if (result_char[i][j].equals("S")) {
+                    label_Tile.setIcon(sea);
+                } else if (result_char[i][j].equals("T")) {
+                    label_Tile.setIcon(tundra);
+                } else {
+                    System.out.printf("%s", result_char[i][j]);
+                }
 
-        JPanel panel2 = new JPanel();
-        panel2.setBounds(280, 470, 900, 230);
-        panel2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        frame1.add(panel2);
+                panel_Map.add(label_Tile);
+                //counter++;
+            }
+        }
 
-        JPanel panel4 = new JPanel();
-        panel4.setBounds(40, 325, 200, 50);
-        frame1.add(panel4);
+        /////
 
-        JPanel panel3 = new JPanel();
-        //panel3.setBounds(1190, 10, 270, 340);
-        //panel3.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        panel3.setPreferredSize(new Dimension(4 * 64, 5 * 64));
-        panel3.setLayout(null);
-        //frame1.add(panel3);
+        JScrollPane panel_Map_Scrollpane = new JScrollPane(panel_Map);
+        panel_Map_Scrollpane.setBounds(280,10,900,450);
+        panel_Map_Scrollpane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        panel_Map_Scrollpane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        panel_Map_Scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        window.add(panel_Map_Scrollpane);
 
-        /*
+        JPanel panel_Info = new JPanel();
+        panel_Info.setBounds(280, 470, 900, 230);
+        panel_Info.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        window.add(panel_Info);
+
+        JPanel panel_Input_Command = new JPanel();
+        panel_Input_Command.setBounds(40, 325, 200, 50);
+        window.add(panel_Input_Command);
+
+        // TEXT FIELD
+        JTextField text_field1 = new JTextField("", 17);
+        panel_Input_Command.add(text_field1);
+
+        JLayeredPane panel_Inventory_Engimon = new JLayeredPane();
+        //panel_Inventory_Engimon.setBounds(1190,10,4 * 64, 5 * 64);
+        //panel_Inventory_Engimon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        panel_Inventory_Engimon.setPreferredSize(new Dimension(4 * 64, 5 * 64));
+        panel_Inventory_Engimon.setLayout(null);
+        //window.add(panel_Inventory_Engimon);
+
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 4; j++) {
                 JLabel label_new = new JLabel();
                 label_new.setBounds(j * 64,i * 64,64,64);
                 label_new.setIcon(invent_slot);
-                panel3.add(label_new);
+                panel_Inventory_Engimon.add(label_new);
             }
         }
-        */
 
-        JScrollPane pane1 = new JScrollPane(panel3);
-        pane1.setBounds(1190,10,270,340);
-        pane1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        pane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        pane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        frame1.add(pane1);
+        JScrollPane panel_Inventory_Engimon_Scrollpane = new JScrollPane(panel_Inventory_Engimon);
+        panel_Inventory_Engimon_Scrollpane.setBounds(1190,10,270,340);
+        panel_Inventory_Engimon_Scrollpane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        panel_Inventory_Engimon_Scrollpane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        panel_Inventory_Engimon_Scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        window.add(panel_Inventory_Engimon_Scrollpane);
 
-        JPanel panel5 = new JPanel();
-        //panel5.setBounds(1190, 360, 270, 340);
-        //panel5.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        panel5.setPreferredSize(new Dimension(4 * 64, 5 * 64));
-        panel5.setLayout(null);
-        //frame1.add(panel5);
+        JLayeredPane panel_Inventory_Skill = new JLayeredPane();
+        panel_Inventory_Skill.setPreferredSize(new Dimension(4 * 64, 5 * 64));
+        panel_Inventory_Skill.setLayout(null);
 
-        /*
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 4; j++) {
                 JLabel label_new = new JLabel();
-                label_new.setBounds(j * 64,i * 64,64,64);
+                label_new.setBounds(j * 64, i * 64, 64, 64);
                 label_new.setIcon(invent_slot);
-                panel5.add(label_new);
+                panel_Inventory_Skill.add(label_new);
             }
         }
-        */
 
         JLabel label_z = new JLabel();
         label_z.setBounds(0,0,32,32);
         label_z.setIcon(ground);
-        panel5.add(label_z);
+        panel_Inventory_Skill.add(label_z);
 
-        JScrollPane pane2 = new JScrollPane(panel5);
-        pane2.setBounds(1190,360,270,340);
-        pane2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        pane2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        pane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        frame1.add(pane2);
+        JScrollPane panel_Inventory_Skill_Scrollpane = new JScrollPane(panel_Inventory_Skill);
+        panel_Inventory_Skill_Scrollpane.setBounds(1190,360,270,340);
+        panel_Inventory_Skill_Scrollpane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        panel_Inventory_Skill_Scrollpane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        panel_Inventory_Skill_Scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        window.add(panel_Inventory_Skill_Scrollpane);
 
-        // TEXT FIELD
-        JTextField text_field1 = new JTextField("", 17);
-        panel4.add(text_field1);
-
-        frame1.show();
+        window.show();
 
     }
 }
