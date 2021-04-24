@@ -1,11 +1,15 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * inventoryengimon
  */
 public class InventoryEngimon extends Inventory<Engimon> {
-    List<Engimon> listEngimon;
+
+    // Atribut
+    private List<Engimon> listEngimon;
 
     // Constructor
     public InventoryEngimon(){
@@ -16,14 +20,30 @@ public class InventoryEngimon extends Inventory<Engimon> {
     public Engimon getSpesifikMember(int index){
         return listEngimon.get(index);
     }
-    public List<Engimon> getListEngimon() {
-        return listEngimon;
-    }
+
     @Override
-    public void addMember(Engimon newMember ){
+    public void addMember(Engimon newMember){
         // Belum di-group berdasarkan element dan level
         listEngimon.add(newMember);
         totalMember+=1;
+        Collections.sort(listEngimon, new Comparator<Engimon>() {
+            @Override
+            public int compare(Engimon o1, Engimon o2) {
+                if(o1.getName().compareTo(o2.getName()) == 0){
+                    return o2.getLevel() - o1.getLevel();
+                } else{
+                    return o1.getName().compareTo(o2.getName());
+                }
+            }
+        });
+    }
+
+    public List<Engimon> getListEngimon() {
+        return listEngimon;
+    }
+
+    public int getSize(){
+        return listEngimon.size();
     }
 
     public Engimon changeEngimon(Engimon engimon, int index){
@@ -31,10 +51,5 @@ public class InventoryEngimon extends Inventory<Engimon> {
         listEngimon.set(index,engimon);
         return bufferEngimon;
     }
-    public void showListEngimon(){
-        for (int i = 0; i < listEngimon.size(); i++) {
-            // Menyesuaikan dengan Engimon
-            System.out.println(i+1 + ". " + getSpesifikMember(i)); // Belum selesai
-        }
-    }
+
 }
