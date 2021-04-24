@@ -25,9 +25,14 @@ public class InventorySkill extends Inventory<Skill>{
 
     @Override
     public void addMember(Skill newMember) {
-        int count = mapOfSkill.containsKey(newMember) ?mapOfSkill.get(newMember) : 0 ;
-        mapOfSkill.put(newMember,count + 1);
-        totalMember+=1;
+        if ( totalMember >= max_capacity){
+            System.out.println("Inventory Penuh!"); // Sesuaikan sama GUI
+        } else{
+            int count = mapOfSkill.containsKey(newMember) ?mapOfSkill.get(newMember) : 0 ;
+            mapOfSkill.put(newMember,count + 1);
+            totalMember+=1;
+        }
+
     }
 }
 
