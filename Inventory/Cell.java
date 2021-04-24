@@ -2,23 +2,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Cell {
-    private
-    final int X;
-    final int Y;
-    CellType cellType;
-    Entity entity;
+    private final int X;
+    private final int Y;
+    private CellType cellType;
+    private Entity entity;
     char symbol;
     public
     Cell(int X, int Y){
         this.X = X;
         this.Y = Y;
-        this.entity = new Air(X, Y);
+        this.entity = new Air();
     }
 
     Cell(int X, int Y, CellType cellType){
         this.X = X;
         this.Y = Y;
-        this.entity = new Air(X, Y);
+        this.entity = new Air();
         this.cellType = cellType;
     }
 
@@ -34,5 +33,11 @@ public class Cell {
         return entity;
     }
 
+    public int getX() {
+        return X;
+    }
 
+    public int getY() {
+        return Y;
+    }
 }

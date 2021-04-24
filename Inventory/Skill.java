@@ -1,17 +1,32 @@
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Skill implements Comparable<Skill>{
-    String nama;
-    ArrayList<String> validElements;
-    int basePower;
-    int masteryLevel;
+public class Skill implements Comparable<Skill>,Item {
+    private String nama;
+    private ArrayList<String> validElements;
+    private int basePower;
+    private int masteryLevel;
 
     public Skill(String nama, ArrayList<String> validElements, int basePower){
         this.nama = nama;
         this.basePower = basePower;
         this.validElements = validElements;
-        this.masteryLevel = validElements.size();
+        this.masteryLevel = 1;
+    }
+
+    public Skill(String nama, ArrayList<String> validElements, int basePower, int masteryLevel){
+        this.nama = nama;
+        this.basePower = basePower;
+        this.validElements = validElements;
+        this.masteryLevel = masteryLevel;
+    }
+
+    public int getMasteryLevel(){
+        return this.masteryLevel;
+    }
+
+    public int getBasePower(){
+        return this.basePower;
     }
 
     @Override
@@ -29,6 +44,12 @@ public class Skill implements Comparable<Skill>{
 
     @Override
     public int compareTo(Skill o) {
-        return o.basePower - this.basePower;
+        if(this.masteryLevel > o.masteryLevel){
+            return 1;
+        } else if(this.masteryLevel < o.masteryLevel) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 }

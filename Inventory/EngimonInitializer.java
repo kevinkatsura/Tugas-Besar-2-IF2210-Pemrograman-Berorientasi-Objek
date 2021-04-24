@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public final class EngimonInitializer {
@@ -62,19 +64,35 @@ public final class EngimonInitializer {
         return (Engimon) allEngimons.get(idx).clone();
     }
 
+    public Engimon getEngimon(String spesies){
+        return (Engimon) allEngimons
+                .stream()
+                .filter(e -> e.getSpecies().equals(spesies))
+                .findFirst()
+                .get()
+                .clone();
+    }
+
+
     public static int getNumEngimon() {
         return numEngimon;
     }
 
     public ArrayList<Engimon> getAllEngimonContainElement(Element element){
         return allEngimons.stream()
-                .filter(e -> e.elements.contains(element))
+                .filter(e -> e.getElements().contains(element))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public ArrayList<Engimon> getAllEngimonOfElement(Element element){
         return allEngimons.stream()
-                .filter(e -> (e.elements.contains(element) && e.getNumberElements() == 1))
+                .filter(e -> (e.getElements().contains(element) && e.getNumberElements() == 1))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public ArrayList<Engimon> getAllEngimonOfElement(ArrayList<Element> elements){
+        return allEngimons.stream()
+                .filter(e -> (new HashSet(e.getElements())).containsAll(elements))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 }

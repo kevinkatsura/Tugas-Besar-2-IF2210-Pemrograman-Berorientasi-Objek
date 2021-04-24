@@ -16,9 +16,7 @@ public class InventoryEngimon extends Inventory<Engimon> {
     public Engimon getSpesifikMember(int index){
         return listEngimon.get(index);
     }
-    public List<Engimon> getListEngimon() {
-        return listEngimon;
-    }
+
     @Override
     public void addMember(Engimon newMember ){
         // Belum di-group berdasarkan element dan level
@@ -26,11 +24,16 @@ public class InventoryEngimon extends Inventory<Engimon> {
         totalMember+=1;
     }
 
+    public List<Engimon> getInventoryEngimon() {
+        return listEngimon;
+    }
+
     public Engimon changeEngimon(Engimon engimon, int index){
         Engimon bufferEngimon = listEngimon.get(index);
         listEngimon.set(index,engimon);
         return bufferEngimon;
     }
+
     public void showListEngimon(){
         for (int i = 0; i < listEngimon.size(); i++) {
             // Menyesuaikan dengan Engimon

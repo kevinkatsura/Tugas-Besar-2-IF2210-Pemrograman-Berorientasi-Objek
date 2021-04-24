@@ -1,8 +1,7 @@
 public class Player extends Entity{
-    public
-    Player(){ super();}
-    Player(int x, int y){ super(x, y);}
-    Player(Player target){
+    public Player(){ super();}
+    public Player(int x, int y){ super(x, y);}
+    public Player(Player target){
         super(target);
     }
 

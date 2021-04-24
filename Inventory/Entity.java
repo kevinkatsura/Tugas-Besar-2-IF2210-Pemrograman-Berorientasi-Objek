@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public abstract class Entity {
-    private Cell coordinate;
+    protected Cell coordinate;
 
-    public Entity(){ coordinate = new Cell(0,0);}
+    public Entity(){}
 
     public Entity(int x, int y){ coordinate = new Cell(x,y); }
 
