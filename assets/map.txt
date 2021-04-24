@@ -1,5 +1,26 @@
-G G G G G
-T T T T T
-M M M M M
-S S S S S
-G G G G G
+M	M	M	M	M	M	G	G	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	M	M	M	G	G	G	G	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	G	G	G	G	G	G	G	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	G	G	G	G	G	G	G	G	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	G	G	M	G	G	G	M	G	G	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	G	G	M	G	G	G	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	M	G	G	G	G	G	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	M	G	G	G	G	G	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	G	G	G	G	G	G	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	G	G	G	G	G	G	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+G	G	G	G	M	G	G	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+G	G	G	G	M	G	G	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	G	G	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
+M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M	M
