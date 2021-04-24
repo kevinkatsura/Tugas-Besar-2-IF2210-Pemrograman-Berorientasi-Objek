@@ -1,7 +1,8 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+
+import static java.util.Comparator.comparingInt;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 /**
  * inventoryengimon
@@ -24,18 +25,30 @@ public class InventoryEngimon extends Inventory<Engimon> {
     @Override
     public void addMember(Engimon newMember){
         // Belum di-group berdasarkan element dan level
-        listEngimon.add(newMember);
-        totalMember+=1;
-        Collections.sort(listEngimon, new Comparator<Engimon>() {
-            @Override
-            public int compare(Engimon o1, Engimon o2) {
-                if(o1.getName().compareTo(o2.getName()) == 0){
-                    return o2.getLevel() - o1.getLevel();
-                } else{
-                    return o1.getName().compareTo(o2.getName());
-                }
-            }
-        });
+        if (totalMember >= max_capacity){
+            System.out.println("Inventory Penuh!"); // Sesuaikan dengan GUI
+        } else{
+            listEngimon.add(newMember);
+            totalMember+=1;
+            this.listEngimon = listEngimon.stream()
+                    .sorted(comparingInt(Engimon::getLevel).reversed())
+                    .collect(groupingBy(Engimon::getName, LinkedHashMap::new, toList()))
+                    .values().stream()
+                    .flatMap(Collection::stream)
+                    .collect(toList());
+
+//            Collections.sort(listEngimon, new Comparator<Engimon>() {
+//                @Override
+//                public int compare(Engimon o1, Engimon o2) {
+//                    if(o1.getName().compareTo(o2.getName()) == 0){
+//                        return o2.getLevel() - o1.getLevel();
+//                    } else{
+//                        return o1.getName().compareTo(o2.getName());
+//                    }
+//                }
+//            });
+
+        }
     }
 
     public List<Engimon> getListEngimon() {
@@ -51,5 +64,4 @@ public class InventoryEngimon extends Inventory<Engimon> {
         listEngimon.set(index,engimon);
         return bufferEngimon;
     }
-
 }
