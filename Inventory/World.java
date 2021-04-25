@@ -32,20 +32,14 @@ public class World {
                 for(char ch: charArray){
                     if(ch == 'T'){
                        coordinates[i][j] = new Cell(j, i, CellType.TUNDRA);
-                       System.out.println("We got tundra");
                     } else if(ch == 'M'){
                         coordinates[i][j] = new Cell(j, i, CellType.MOUNTAINS);
-                        System.out.println("We got mountains");
                     } else if(ch == 'S'){
                         coordinates[i][j] = new Cell(j, i, CellType.SEA);
-                        System.out.println("We got sea");
                     } else if(ch == 'G'){
                         coordinates[i][j] = new Cell(j, i, CellType.GRASSLAND);
-                        System.out.println("We got grassland");
                     } else {
-                        // TODO: Buat exception file salah
-                        // throw new WrongInputCellTypeException();
-                        System.out.println("We got problem, Houston!");
+                        throw new IllegalInputCellTypeException();
                     }
                     j++;
                 }
@@ -53,7 +47,8 @@ public class World {
             }
         } catch(FileNotFoundException e){
             System.out.println("File tidak ditemukan");
-            e.printStackTrace();
+        } catch (IllegalInputCellTypeException e){
+            System.out.println("File map yang anda masukkan memuat input yang ilegal");
         }
     }
 
@@ -88,5 +83,9 @@ public class World {
 
     public boolean validCell(int x, int y){
         return(x >= 0 && y >= 0 && x < kolom && y < baris);
+    }
+
+    public Cell getCell(int x, int y){
+        return coordinates[y][x];
     }
 }

@@ -4,7 +4,7 @@ public class Breeder {
     private Engimon engimon1;
     private Engimon engimon2;
     private Engimon child;
-    public Breeder(Engimon e1, Engimon e2, EngimonInitializer initializer){
+    public Breeder(Engimon e1, Engimon e2, EngimonInitializer initializer) throws IllegalLevelToBreedException {
         engimon1 = e1;
         engimon2 = e2;
 
@@ -22,7 +22,9 @@ public class Breeder {
             System.out.println("Masukkan nama anak: ");
             String nama = scanner.nextLine();
             child.setNama(nama);
-        } // TODO: Buat exception
+        } else {
+            throw new IllegalLevelToBreedException();
+        }
     }
 
     public Engimon getChild(){
@@ -44,14 +46,52 @@ public class Breeder {
         PriorityQueue<Skill> parent2Skills = e2.getSkills();
 
         Skill naturalSkill = child.getSkills().peek();
+
         while(childSkills.size() < 4 && parent1Skills.size() > 0 && parent2Skills.size() > 0){
             Skill s1 = parent1Skills.peek();
             Skill s2 = parent2Skills.peek();
             if(s1.compareTo(s2) == -1){
-
+                if(masteryLevelOn(childSkills, s2.getNama()) == 0 &&
+                masteryLevelOn(parent1Skills, s2.getNama()) ==
+                masteryLevelOn(parent2Skills, s2.getNama())){
+                    if(s2.getMasteryLevel() < 3){
+                        s2.setMasteryLevel(s2.getMasteryLevel() + 1);
+                    }
+                    childSkills.add(s2);
+                } else if (masteryLevelOn(childSkills, s2.getNama()) == 0){
+                    childSkills.add(s2);
+                }
+                parent2Skills.poll();
+            } else {
+                if(masteryLevelOn(childSkills, s1.getNama()) == 0 &&
+                masteryLevelOn(parent2Skills, s1.getNama()) ==
+                masteryLevelOn(parent2Skills, s1.getNama())){
+                    if (s1.getMasteryLevel() < 3){
+                        s1.setMasteryLevel(s1.getMasteryLevel() + 1);
+                    }
+                    childSkills.add(s1);
+                } else if(masteryLevelOn(childSkills, s1.getNama()) == 0){
+                    childSkills.add(s1);
+                }
             }
         }
-        return e1.getSkills();
+
+        while(childSkills.size() < 4 && (parent1Skills.size() > 0 || parent2Skills.size() > 0)){
+            if(parent1Skills.size() > 0){
+                Skill s1 = parent1Skills.peek();
+                if(masteryLevelOn(childSkills, s1.getNama()) == 0){
+                    childSkills.add(s1);
+                }
+                parent1Skills.poll();
+            } else {
+                Skill s2 = parent2Skills.peek();
+                if(masteryLevelOn(childSkills, s2.getNama()) == 0){
+                    childSkills.add(s2);
+                }
+                parent2Skills.poll();
+            }
+        }
+        return childSkills;
     }
 
     private String inheritedSpecies(Engimon e1, Engimon e2, EngimonInitializer initializer){
@@ -99,6 +139,20 @@ public class Breeder {
                     .get(random.nextInt(initializer.getAllEngimonOfElement(elements).size()))
                     .getSpecies();
         }
+    }
+
+    private int masteryLevelOn(PriorityQueue<Skill> priorityQueue, String skillName){
+        PriorityQueue<Skill> priorityQueue1 = priorityQueue;
+        boolean found = false;
+        int retVal = 0;
+        while (!priorityQueue1.isEmpty() && !found){
+            if(priorityQueue1.peek().getNama().equals(skillName)){
+                retVal = priorityQueue1.peek().getMasteryLevel();
+                found = true;
+            }
+            priorityQueue1.poll();
+        }
+        return retVal;
     }
 
 }

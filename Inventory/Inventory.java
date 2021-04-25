@@ -9,7 +9,6 @@ abstract class Inventory<T extends Item> { // Jangan lupa buat Engimon dan Skill
 
     // Constructor
     public Inventory(){
-        totalMember = 0;
     }
     public abstract T getSpesifikMember(int index);
     public abstract void addMember(T newMember);

@@ -5,6 +5,7 @@ public class Battle {
     private Integer totalPowerEnemy;
     private double elementAdvPlayer;
     private double elementAdvEnemy;
+    private int lifeEngimon;
 
     public int Sum (int num){
         if (num != 0){
@@ -15,8 +16,8 @@ public class Battle {
         }
     }
 
-    public int TotalPower(Engimon w, int elementAdv, Skill s){
-        return w.getLevel() * elementAdv + Sum(s.getBasePower() * s.getMasteryLevel());
+    public int TotalPower(Engimon e, double elementAdvPlayer2, Skill s){
+        return (int) (e.getLevel() * elementAdvPlayer2 + Sum(s.getBasePower() * s.getMasteryLevel()));
     }
 
 	public void showTotalPower(int total, int tag){
@@ -28,30 +29,34 @@ public class Battle {
         }
     }
 
-    // Ini teh
-    public void showStatusWildEngimon(Spawner w){
-
+    public void showStatusWildEngimon(Engimon e){
+        System.out.println("Nama : " + e.getName());
+        System.out.println("Spesies : " + e.getSpecies());
+        System.out.println("Skill : " + e.getSkills());
+        System.out.println("Banyak Element : " + e.getNumberElements());
+        System.out.println("Element : " + e.getElements());
+        System.out.println("Level : " + e.getLevel());
     }
 
-    public void beforeBattle(Player w1, Spawner w2, int numEngimon, Skill s1, Skill s2){ // Sesuaikan dengan GUI
-        String answer;
-
+    public void beforeBattle(Engimon e, Engimon w, int numEngimon, Skill s1, Skill s2, InventoryEngimon wI){ // Sesuaikan dengan GUI
         // Tampilkan status lengkap engimon musuh
-        totalPowerPlayer = TotalPower(w2.getInventoryEngimon().getEngimon(numEngimon), elementAdvPlayer, s1);
+        this.showStatusWildEngimon(w); // Disesuaikan dengan GUI
+        totalPowerPlayer = TotalPower(wI.getInventoryEngimon().get(numEngimon), elementAdvPlayer, s1);
         showTotalPower(totalPowerEnemy,1);
-        showStatusWildEngimon(w2); // Disesuaikan dengan GUI
 
+        System.out.println("Apakah Ingin Melanjutkan Battle: ");
         Scanner keyboard = new Scanner(System.in);
-        System.out.print("Apakah Ingin Melanjutkan Battle: ");
-        answer = keyboard.nextLine();
+        String answer = keyboard.nextLine();
+        System.out.print("[ ya/tidak ] : ");
 
         if (answer.toLowerCase().equals("ya")){
-            tanding(w1, numEngimon, w2, s1, s2);
+            tanding(e, numEngimon, w, s1, s2, wI);
         }
         else {
             System.out.println("Gajadi battle deh");
         }
     }
+
 
 	public void elementAdv1(Engimon e1, Engimon e2){
         int i = 0, j = 0;
@@ -92,9 +97,9 @@ public class Battle {
         }
     }
 
-	public void tanding(Player w1, int numEngimon, Spawner w2, Skill s1, Skill s2){
+	public int tanding(Engimon w1, int numEngimon, Engimon w2, Skill s1, Skill s2, InventoryEngimon wI){
         // Hitung total power level
-        totalPowerPlayer = TotalPower(w1.getInventoryEngimon().getEngimon(numEngimon), elementAdvPlayer, s1);
+        totalPowerPlayer = TotalPower(wI.getInventoryEngimon().get(numEngimon), elementAdvPlayer, s1);
         totalPowerEnemy = TotalPower(w2, elementAdvPlayer, s2);
 
         //Tampilkan total power Level
@@ -102,23 +107,30 @@ public class Battle {
         showTotalPower(totalPowerEnemy,1);
 
         if (totalPowerPlayer < totalPowerEnemy){
-            System.out.println("\n T_T ---- you lose ---- T_T\n");
+            return 1; // Menang
+            System.out.println("\n T_T ---- you lose ---- T_T");
+            lifeEngimon = w1.getLife();
+            lifeEngimon--;
+            if (lifeEngimon == 0){
+                System.out.println("Engimon Mati T_T");
+            }
         }
         else{
-            int exp = 200 + w1.getInventoryEngimon().getEngimon(numEngimon).getXp();
-            w1.getInventoryEngimon().getEngimon(numEngimon).setXp(exp);
+            return 0 ; // Kalah
+            int exp = 200 + wI.getInventoryEngimon().get(numEngimon).getCumulXp();
+            wI.getInventoryEngimon().get(numEngimon).setCumulXp(exp);
             System.out.println("\n## Anda Mendapatkan tambahan EXP sebesar 200 ##");
 
             // Menambahkan Engimon hadiah
             w2.setStatus(PLAYER_ENGIMON);
 
-            w1.addEngimon(w2);
+            w1.addToInventoryEngimon(w2);
             System.out.println("## Engimon Reward \t>>> " + w2.getSpecies() + "\n");
 
             //Menambahkan Skill hadiah
             Skill skillReward;
             //skillReward.operator=(GameState::generateSkill(w2));
-            System.out.println("## Skill Reward \t>>> " + skillReward.getNamaSkill() + "\n");
+            System.out.println("## Skill Reward \t>>> " + skillReward.getNama() + "\n");
         }
     }
 }

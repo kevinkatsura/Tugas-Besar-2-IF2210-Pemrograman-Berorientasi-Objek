@@ -1,28 +1,38 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class GameState {
     private World world;
-    private EngimonInitializer initializer = new EngimonInitializer();
+    private EngimonInitializer initializer;
     private int round;
-    private Player player = new Player();
+    private Player player;
     private Spawner spawner;
     private Random random = new Random();
     private Breeder breeder;
     public final int MOVE_ROUND = 5;
     public final int SPAWN_ROUND = 7;
     public final int START_ENGIMON = 3;
-    public final int LEVELUP_ENGIMON = 6;
+    public final int LEVELUP_ENGIMON = 9;
 
     public GameState(World world){
         this.world = world;
         this.round = 1;
+        this.initializer = new EngimonInitializer();
+        this.player = new Player(0, 0);
+        world.addEntities(player, 0, 0);
         this.spawner = new Spawner(spawner.MIN_WILD + random.nextInt((spawner.MAX_WILD - spawner.MIN_WILD)), world, initializer);
         // TODO: Give player 3 engimons in inventory
     }
 
-    public void reload(String command){
-        round++;
-        regenerateWildEngimons();
+    public void reload(){
+        try {
+            executeCommand(readCommand());
+            round++;
+            regenerateWildEngimons();
+            System.out.println("Ronde: " + round);
+        } catch (InvalidCommandException e){
+            e.showErrorMessage();
+        }
     }
 
     public void regenerateWildEngimons(){
@@ -35,5 +45,59 @@ public class GameState {
         if(round % LEVELUP_ENGIMON == 0){
             spawner.levelUpEngimons();
         }
+    }
+
+    public void executeCommand(String command) throws InvalidCommandException {
+        switch (command){
+            case "Move":
+                System.out.println("Silakan tentukan arah pergerakan anda (A/S/W/D): ");
+                Scanner scanner = new Scanner(System.in);
+                String dir = scanner.nextLine();
+                new MoveCommand(this, dir).execute();
+                break;
+            case "A":
+                for(int i = 0; i < world.getBaris(); i++){
+                    for (int j = 0; j < world.getKolom(); j++){
+                        if(world.getEntities(j, i) instanceof Engimon){
+                            ((Engimon) world.getEntities(j, i)).showStat();
+                        }
+                    }
+                }
+                break;
+            case "Breed":
+                System.out.print("Silakan tentukan Engimon nomor mana saja yang ingin dikawinkan: ");
+            default:
+                throw new InvalidCommandException();
+        }
+    }
+
+    public void movePlayerBy(int dx, int dy) throws PlayerOutOfMapException, OccupiedCellException {
+        int x = player.getCoordinate().getX() + dx;
+        int y = player.getCoordinate().getY() + dy;
+        if(!world.validCell(x, y)){
+            throw new PlayerOutOfMapException();
+        }
+        if(!(world.getEntities(x, y) instanceof Air)){
+            throw new OccupiedCellException();
+        }
+        world.moveEntities(player.getCoordinate().getX(), player.getCoordinate().getY(), x, y);
+        player.setCoordinate(world.getCell(x, y));
+    }
+
+    public String readCommand(){
+        System.out.println("Silakan masukkan command pilihan anda:");
+        System.out.println("Command yang dapat dimasukkan:");
+        System.out.println("1. Move (melakukan pergerakan)");
+        System.out.println("2. Breed (mengawinkan engimon)");
+        System.out.println("3. Stat (melihat data dari engimon yang dipunyai)");
+        System.out.println("4. Switch (mengganti active engimon)");
+        System.out.println("5. SkillItem (melihat dan mengatur skill item yang ada)");
+        System.out.println("6. Battle (bertarung dengan wild engimon yang ada)");
+        System.out.println("7. Interact (berinteraksi dengan active engimon)");
+        System.out.println("8. Exit (untuk keluar dari permainan)");
+        System.out.println("Command yang ingin dilakukan:");
+        Scanner sc = new Scanner(System.in);
+        String command = sc.nextLine();
+        return command;
     }
 }

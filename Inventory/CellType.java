@@ -10,7 +10,7 @@ public enum CellType {
             validElements.add(new Element("Electric"));
             validElements.add(new Element("Ground"));
         } else if(this == CellType.SEA){
-            validElements.add(new Element("Sea"));
+            validElements.add(new Element("Water"));
         } else if(this == CellType.TUNDRA){
             validElements.add(new Element("Ice"));
         }

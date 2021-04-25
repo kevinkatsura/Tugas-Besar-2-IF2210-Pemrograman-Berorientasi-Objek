@@ -7,7 +7,6 @@ public class Spawner {
     public static final int MAX_WILD = 15;
     public static final int MIN_WILD = 11;
 
-
     public Spawner(int numWild, World world, EngimonInitializer initializer){
         for(int i = 0; i < numWild; i++){
             Random rand = new Random();
@@ -22,7 +21,8 @@ public class Spawner {
             for (Element e: validElements) {
                 validEngimons.addAll(initializer.getAllEngimonContainElement(e));
             }
-            Engimon e = (Engimon) validEngimons.get(rand.nextInt(validEngimons.size())).clone();
+            Engimon e = (Engimon) validEngimons.get(rand.nextInt(validEngimons.size())).cloneDefaultWild(1);
+            e.setCoordinate(world.getCell(x, y));
             wildEngimons.add(e);
             world.addEntities(e, x, y);
         }
@@ -37,8 +37,8 @@ public class Spawner {
         Random random = new Random();
         for (Engimon e: wildEngimons) {
             int k, l;
-            int m = e.coordinate.getX();
-            int n = e.coordinate.getY();
+            int m = e.getCoordinate().getX();
+            int n = e.getCoordinate().getY();
             int randDir = random.nextInt(5);
             if(randDir == 0){
                 k = m - 1;
@@ -56,9 +56,10 @@ public class Spawner {
                 k = m;
                 l = n;
             }
-            if(world.getEntities(k, l) instanceof Air){
-                if(world.validCell(k, l) && e.suitableInCellType(world.getCellType(k, l))){
-                    world.moveEntities(k, l, m, n);
+            if(world.validCell(k, l)){
+                if(world.getEntities(k, l) instanceof Air && e.suitableInCellType(world.getCellType(k, l))){
+                    world.moveEntities(m, n, k, l);
+                    e.setCoordinate(world.getCell(k, l));
                 }
             }
         }

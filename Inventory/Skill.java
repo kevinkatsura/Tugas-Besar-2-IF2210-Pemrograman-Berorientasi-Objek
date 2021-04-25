@@ -3,18 +3,18 @@ import java.util.Objects;
 
 public class Skill implements Comparable<Skill>,Item {
     private String nama;
-    private ArrayList<String> validElements;
+    private ArrayList<Element> validElements;
     private int basePower;
     private int masteryLevel;
 
-    public Skill(String nama, ArrayList<String> validElements, int basePower){
+    public Skill(String nama, ArrayList<Element> validElements, int basePower){
         this.nama = nama;
         this.basePower = basePower;
         this.validElements = validElements;
         this.masteryLevel = 1;
     }
 
-    public Skill(String nama, ArrayList<String> validElements, int basePower, int masteryLevel){
+    public Skill(String nama, ArrayList<Element> validElements, int basePower, int masteryLevel){
         this.nama = nama;
         this.basePower = basePower;
         this.validElements = validElements;
@@ -28,6 +28,12 @@ public class Skill implements Comparable<Skill>,Item {
     public int getBasePower(){
         return this.basePower;
     }
+
+    public String getNama() {
+        return nama;
+    }
+    
+    public void setMasteryLevel(int masteryLevel){ this.masteryLevel = masteryLevel; }
 
     @Override
     public boolean equals(Object o) {

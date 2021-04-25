@@ -6,7 +6,13 @@ import java.util.stream.Collectors;
 
 public final class EngimonInitializer {
     private static ArrayList<Engimon> allEngimons = new ArrayList<>();
+    private static SkillInitializer allSkills;
     private static final int numEngimon = 12;
+
+    public EngimonInitializer(){
+        allSkills = new SkillInitializer();
+        init();
+    }
 
     public void init(){
         initEngimon();
@@ -52,12 +58,39 @@ public final class EngimonInitializer {
                 new Element("Water"), new Element("Ice"))));
         allEngimons.get(10).setElements(new ArrayList<Element>(Arrays.asList(
                 new Element("Ice"))));
-        allEngimons.get(5).setElements(new ArrayList<Element>(Arrays.asList(
+        allEngimons.get(11).setElements(new ArrayList<Element>(Arrays.asList(
                 new Element("Ground"))));
     }
 
     public void initSkill(){
-        //
+        allEngimons.get(0).addSkill(allSkills.getSkill(0));
+        allEngimons.get(0).addSkill(allSkills.getSkill(15));
+        allEngimons.get(1).addSkill(allSkills.getSkill(11));
+        allEngimons.get(1).addSkill(allSkills.getSkill(17));
+        allEngimons.get(2).addSkill(allSkills.getSkill(2));
+        allEngimons.get(2).addSkill(allSkills.getSkill(4));
+        allEngimons.get(2).addSkill(allSkills.getSkill(13));
+        allEngimons.get(3).addSkill(allSkills.getSkill(3));
+        allEngimons.get(3).addSkill(allSkills.getSkill(10));
+        allEngimons.get(3).addSkill(allSkills.getSkill(15));
+        allEngimons.get(4).addSkill(allSkills.getSkill(4));
+        allEngimons.get(4).addSkill(allSkills.getSkill(5));
+        allEngimons.get(5).addSkill(allSkills.getSkill(4));
+        allEngimons.get(5).addSkill(allSkills.getSkill(11));
+        allEngimons.get(5).addSkill(allSkills.getSkill(14));
+        allEngimons.get(6).addSkill(allSkills.getSkill(1));
+        allEngimons.get(6).addSkill(allSkills.getSkill(11));
+        allEngimons.get(6).addSkill(allSkills.getSkill(16));
+        allEngimons.get(7).addSkill(allSkills.getSkill(4));
+        allEngimons.get(7).addSkill(allSkills.getSkill(15));
+        allEngimons.get(8).addSkill(allSkills.getSkill(10));
+        allEngimons.get(8).addSkill(allSkills.getSkill(12));
+        allEngimons.get(9).addSkill(allSkills.getSkill(4));
+        allEngimons.get(9).addSkill(allSkills.getSkill(7));
+        allEngimons.get(10).addSkill(allSkills.getSkill(4));
+        allEngimons.get(10).addSkill(allSkills.getSkill(8));
+        allEngimons.get(11).addSkill(allSkills.getSkill(13));
+        allEngimons.get(11).addSkill(allSkills.getSkill(16));
     }
 
     public Engimon getEngimon(int idx){
@@ -85,9 +118,9 @@ public final class EngimonInitializer {
     }
 
     public ArrayList<Engimon> getAllEngimonOfElement(Element element){
-        return allEngimons.stream()
+        return new ArrayList<Engimon>(allEngimons.stream()
                 .filter(e -> (e.getElements().contains(element) && e.getNumberElements() == 1))
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(Collectors.toList()));
     }
 
     public ArrayList<Engimon> getAllEngimonOfElement(ArrayList<Element> elements){
