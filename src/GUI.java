@@ -44,15 +44,16 @@ public class GUI {
             }
         }
 
-        ImageIcon ground = new ImageIcon("./resource/ground.png");
-        ImageIcon tundra = new ImageIcon("./resource/tundra.png");
-        ImageIcon mount = new ImageIcon("./resource/mount.png");
-        ImageIcon sea = new ImageIcon("./resource/sea.png");
-        ImageIcon invent_slot = new ImageIcon("./resource/inventory.png");
-        ImageIcon player = new ImageIcon("./resource/player.png");
-        ImageIcon title = new ImageIcon("./resource/title.png");
-        ImageIcon map = new ImageIcon("./resource/map.png");
-        ImageIcon inventory_text = new ImageIcon("./resource/inventory_text.png");
+        ImageIcon ground = new ImageIcon("./resource/MAP/ground.png");
+        ImageIcon tundra = new ImageIcon("./resource/MAP/tundra.png");
+        ImageIcon mount = new ImageIcon("./resource/MAP/mount.png");
+        ImageIcon sea = new ImageIcon("./resource/MAP/sea.png");
+        ImageIcon invent_slot = new ImageIcon("./resource/INV/inventory.png");
+        ImageIcon player = new ImageIcon("./resource/PLAYER/player.png");
+        ImageIcon map = new ImageIcon("./resource/TEXT/map.png");
+        ImageIcon inventory_text = new ImageIcon("./resource/TEXT/inventory_text.png");
+
+        ImageIcon pikachu = new ImageIcon("./resource/ENGI_ICON/pikachu.png");
         // ### AKHIR INISIALISASI
 
         // ### AWAL FRAME
@@ -63,13 +64,6 @@ public class GUI {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setTitle("Engimon's Bizzare Adventure");
         // ### AKHIR FRAME
-
-        // ### AWAL TITLE
-        JLabel label_Title = new JLabel();
-        label_Title.setIcon(title);
-        label_Title.setBounds(1195,10,274,97);
-        window.add(label_Title);
-        // ### AKHIR TITLE
 
         // ### AWAL MAP
         JPanel panel_Label_Map = new JPanel();
@@ -180,7 +174,7 @@ public class GUI {
 //        window.add(panel_Info);
 
         JScrollPane panel_Info_Scrollpane = new JScrollPane(panel_Info);
-        panel_Info_Scrollpane.setBounds(15, 150, 250, 340);
+        panel_Info_Scrollpane.setBounds(15, 10, 250, 475);
         panel_Info_Scrollpane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panel_Info_Scrollpane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         panel_Info_Scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -189,7 +183,7 @@ public class GUI {
         JTextArea ta_info = new JTextArea("");
         ta_info.setLineWrap(true);
         ta_info.setColumns(20);
-        ta_info.setRows(20);
+        ta_info.setRows(28);
         panel_Info.add(ta_info);
 
 //        ta_info.setText("This is a sample text This is a sample text This is a sample text");
@@ -236,6 +230,30 @@ public class GUI {
         panel_Inventory_Scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         window.add(panel_Inventory_Scrollpane);
         // ### AKHIR INVENTORY
+
+        // ### TESTING
+        JLabel pika = new JLabel();
+        pika.setBounds(64,64,64,64);
+        pika.setIcon(pikachu);
+        panel_Map.add(pika,3);
+
+        // ### AWAL EXIT
+        JButton button_exit = new JButton("Exit");
+        button_exit.setBounds(1225, 10, 200, 25);
+        button_exit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        window.add(button_exit);
+
+        // ### AKHIR EXIT
+
+        // ### AWAL SAVE
+        JButton button_save = new JButton("Save");
+        button_save.setBounds(1225, 45, 200, 25);
+        window.add(button_save);
+        // ### AKHIR SAVE
 
         window.show();
     }
