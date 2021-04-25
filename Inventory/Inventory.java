@@ -4,7 +4,7 @@
 abstract class Inventory<T extends Item> { // Jangan lupa buat Engimon dan Skill implements item
 
     // Kapasitasi maksimum dari Inventory
-    private final int max_capacity = 20;
+    protected final int max_capacity = 20;
     protected static int totalMember;
 
     // Constructor

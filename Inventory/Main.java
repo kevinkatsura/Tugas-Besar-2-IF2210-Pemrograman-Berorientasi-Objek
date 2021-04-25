@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String args[]){
-        Scanner sc = new Scanner(System.in);
+        /*Scanner sc = new Scanner(System.in);
         String fileName = sc.nextLine();
         World world = new World(8, 10, fileName);
         GameState gameState = new GameState(world);
@@ -30,12 +30,24 @@ public class Main {
                     if(j == 9){
                         System.out.print("\n");
                     }
-/*                    System.out.println(world.getEntities(j, i).getClass());
+                    System.out.println(world.getEntities(j, i).getClass());
                     if(world.getEntities(j, i) instanceof Engimon){
-                        ((Engimon) world.getEntities(j, i)).showStat();*/
+                        ((Engimon) world.getEntities(j, i)).showStat();
                     }
                 }
-            gameState.reload();
-        }
+            gameState.reload();*/
+            EngimonInitializer initializer  = new EngimonInitializer();
+            Engimon e1 = initializer.getEngimon("Charmeleon").cloneDefaultWild(4);
+            e1.showStat();
+            Engimon e2 = initializer.getEngimon("Pikachu").cloneDefaultWild(5);
+            e2.showStat();
+            try{
+                Breeder breeder = new Breeder(e1, e2, initializer);
+                breeder.getChild().showStat();
+                e1.showStat();
+                e2.showStat();
+            } catch (IllegalLevelToBreedException e) {
+                e.showErrorMessage();
+            }
     }
 }

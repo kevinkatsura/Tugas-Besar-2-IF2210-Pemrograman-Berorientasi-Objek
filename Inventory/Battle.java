@@ -5,7 +5,6 @@ public class Battle {
     private Integer totalPowerEnemy;
     private double elementAdvPlayer;
     private double elementAdvEnemy;
-    private int lifeEngimon;
 
     public int Sum (int num){
         if (num != 0){
@@ -30,12 +29,7 @@ public class Battle {
     }
 
     public void showStatusWildEngimon(Engimon e){
-        System.out.println("Nama : " + e.getName());
-        System.out.println("Spesies : " + e.getSpecies());
-        System.out.println("Skill : " + e.getSkills());
-        System.out.println("Banyak Element : " + e.getNumberElements());
-        System.out.println("Element : " + e.getElements());
-        System.out.println("Level : " + e.getLevel());
+        e.showStat();
     }
 
     public void beforeBattle(Engimon e, Engimon w, int numEngimon, Skill s1, Skill s2, InventoryEngimon wI){ // Sesuaikan dengan GUI
@@ -56,7 +50,6 @@ public class Battle {
             System.out.println("Gajadi battle deh");
         }
     }
-
 
 	public void elementAdv1(Engimon e1, Engimon e2){
         int i = 0, j = 0;
@@ -107,30 +100,31 @@ public class Battle {
         showTotalPower(totalPowerEnemy,1);
 
         if (totalPowerPlayer < totalPowerEnemy){
-            return 1; // Menang
             System.out.println("\n T_T ---- you lose ---- T_T");
-            lifeEngimon = w1.getLife();
+            int lifeEngimon = w1.getLife();
             lifeEngimon--;
             if (lifeEngimon == 0){
                 System.out.println("Engimon Mati T_T");
             }
+            return 1; // Menang
         }
         else{
-            return 0 ; // Kalah
             int exp = 200 + wI.getInventoryEngimon().get(numEngimon).getCumulXp();
             wI.getInventoryEngimon().get(numEngimon).setCumulXp(exp);
             System.out.println("\n## Anda Mendapatkan tambahan EXP sebesar 200 ##");
 
             // Menambahkan Engimon hadiah
-            w2.setStatus(PLAYER_ENGIMON);
+            // w2.setStatus(PLAYER_ENGIMON);
+            // TODO: Solve how to change engimon's tstaus from wild to player's
 
             w1.addToInventoryEngimon(w2);
             System.out.println("## Engimon Reward \t>>> " + w2.getSpecies() + "\n");
 
             //Menambahkan Skill hadiah
-            Skill skillReward;
+            Skill skillReward = null;
             //skillReward.operator=(GameState::generateSkill(w2));
             System.out.println("## Skill Reward \t>>> " + skillReward.getNama() + "\n");
+            return 0 ; // Kalah
         }
     }
 }

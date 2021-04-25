@@ -42,10 +42,11 @@ public class Breeder {
     private PriorityQueue<Skill> inheritedSkill(Engimon child, Engimon e1, Engimon e2){
         // TODO: Buat implementasi penurunan sikill
         PriorityQueue<Skill> childSkills = new PriorityQueue<Skill>();
-        PriorityQueue<Skill> parent1Skills = e1.getSkills();
-        PriorityQueue<Skill> parent2Skills = e2.getSkills();
+        PriorityQueue<Skill> parent1Skills = new PriorityQueue<>(e1.getSkills());
+        PriorityQueue<Skill> parent2Skills = new PriorityQueue<>(e2.getSkills());
 
         Skill naturalSkill = child.getSkills().peek();
+        childSkills.add(naturalSkill);
 
         while(childSkills.size() < 4 && parent1Skills.size() > 0 && parent2Skills.size() > 0){
             Skill s1 = parent1Skills.peek();
@@ -65,7 +66,7 @@ public class Breeder {
             } else {
                 if(masteryLevelOn(childSkills, s1.getNama()) == 0 &&
                 masteryLevelOn(parent2Skills, s1.getNama()) ==
-                masteryLevelOn(parent2Skills, s1.getNama())){
+                masteryLevelOn(parent1Skills, s1.getNama())){
                     if (s1.getMasteryLevel() < 3){
                         s1.setMasteryLevel(s1.getMasteryLevel() + 1);
                     }
@@ -73,6 +74,7 @@ public class Breeder {
                 } else if(masteryLevelOn(childSkills, s1.getNama()) == 0){
                     childSkills.add(s1);
                 }
+                parent1Skills.poll();
             }
         }
 
@@ -109,7 +111,7 @@ public class Breeder {
             } else {
                 // Kasus spesies parent beda
                 Boolean elementOfe1 = (new HashSet(e1.getElements())).containsAll(elements);
-                Boolean elementOfe2 = (new HashSet(e1.getElements())).containsAll(elements);
+                Boolean elementOfe2 = (new HashSet(e2.getElements())).containsAll(elements);
                 if(elementOfe1 && elementOfe2){
                     // Kasus spesies parent beda, elemen sama -> Pilih spesies random
                     if(random.nextInt(2) == 0){
@@ -134,10 +136,18 @@ public class Breeder {
             Element el1 = e1.getElements().get(random.nextInt(e1.getNumberElements()));
             Element el2 = e2.getElements().get(random.nextInt(e2.getNumberElements()));
             elements.addAll(el1.inheritedElementsWhenBreed(el2));
-            return initializer
-                    .getAllEngimonOfElement(elements)
-                    .get(random.nextInt(initializer.getAllEngimonOfElement(elements).size()))
-                    .getSpecies();
+            if(elements.size() == 1){
+                return initializer
+                        .getAllEngimonOfElement(elements.get(0))
+                        .get(random.nextInt(initializer.getAllEngimonOfElement(elements.get(0)).size()))
+                        .getSpecies();
+            } else{
+                return initializer
+                        .getAllEngimonOfElement(elements)
+                        .get(random.nextInt(initializer.getAllEngimonOfElement(elements).size()))
+                        .getSpecies();
+            }
+
         }
     }
 

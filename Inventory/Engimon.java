@@ -154,4 +154,8 @@ public class Engimon extends Entity implements Item{
         wildEngimon.setNama(new WildEngimonNames().giveEngimonName(wildEngimon));
         return wildEngimon;
     }
+
+    public void setMyInventoryEngimon(InventoryEngimon myInventoryEngimon) {
+        this.myInventoryEngimon = myInventoryEngimon;
+    }
 }
