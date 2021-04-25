@@ -22,17 +22,17 @@ public class Main_Menu {
         window.add(label_Title);
         // ### AKHIR TITLE
 
-        // ### AWAL EXIT
+        // ### AWAL NEW GAME
         JButton button_new = new JButton("New Game");
         button_new.setBounds(150, 190, 200, 25);
         button_new.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                window.hide();
+                window.dispose();
                 GUI.main(args);
             }
         });
         window.add(button_new);
-        // ### AKHIR EXIT
+        // ### AKHIR NEW GAME
 
         // ### AWAL SAVE
         JButton button_save = new JButton("Load");

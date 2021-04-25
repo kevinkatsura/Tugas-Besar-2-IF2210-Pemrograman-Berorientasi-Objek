@@ -237,23 +237,34 @@ public class GUI {
         pika.setIcon(pikachu);
         panel_Map.add(pika,3);
 
-        // ### AWAL EXIT
-        JButton button_exit = new JButton("Exit");
-        button_exit.setBounds(1225, 10, 200, 25);
-        button_exit.addActionListener(new ActionListener() {
+        // ### AWAL MAIN MENU
+        JButton button_main_menu = new JButton("Main Menu");
+        button_main_menu.setBounds(1225, 10, 200, 25);
+        button_main_menu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                window.dispose();
+                Main_Menu.main(args);
             }
         });
-        window.add(button_exit);
-
-        // ### AKHIR EXIT
+        window.add(button_main_menu);
+        // ### AKHIR MAIN MENU
 
         // ### AWAL SAVE
         JButton button_save = new JButton("Save");
         button_save.setBounds(1225, 45, 200, 25);
         window.add(button_save);
         // ### AKHIR SAVE
+
+        // ### AWAL EXIT
+        JButton button_exit = new JButton("Exit");
+        button_exit.setBounds(1225, 80, 200, 25);
+        button_exit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        window.add(button_exit);
+        // ### AKHIR EXIT
 
         window.show();
     }
