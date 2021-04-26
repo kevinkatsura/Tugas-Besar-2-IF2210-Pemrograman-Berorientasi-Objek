@@ -21,6 +21,13 @@ public class Skill implements Comparable<Skill>,Item {
         this.masteryLevel = masteryLevel;
     }
 
+    public Skill(Skill skill){
+        nama = skill.nama;
+        basePower = skill.basePower;
+        validElements = skill.validElements;
+        masteryLevel = skill.masteryLevel;
+    }
+
     public int getMasteryLevel(){
         return this.masteryLevel;
     }
@@ -57,5 +64,9 @@ public class Skill implements Comparable<Skill>,Item {
         } else {
             return 0;
         }
+    }
+
+    public Skill clone(){
+        return new Skill(this);
     }
 }

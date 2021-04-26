@@ -15,8 +15,14 @@ public class Breeder {
             e2.xpUp(-300);
             // Pilih spesies anak
             child = initializer.getEngimon(inheritedSpecies(e1, e2, initializer));
+            System.out.println("Selamat, anda mendapatkan engimon berspesies " + child.getSpecies());
             // Atur skill anak
             child.setSkills(inheritedSkill(child, e1, e2));
+            // Atur parent anak
+            child.setParents(e1, e2);
+            // Atur level anak
+            child.setLevel(1);
+            child.setLife(3);
             // Atur nama anak
             Scanner scanner = new Scanner(System.in);
             System.out.println("Masukkan nama anak: ");
@@ -45,12 +51,15 @@ public class Breeder {
         PriorityQueue<Skill> parent1Skills = new PriorityQueue<>(e1.getSkills());
         PriorityQueue<Skill> parent2Skills = new PriorityQueue<>(e2.getSkills());
 
-        Skill naturalSkill = child.getSkills().peek();
-        childSkills.add(naturalSkill);
+        Skill naturalSkill = child.getSkills().peek().clone();
+        if(masteryLevelOn(parent1Skills, naturalSkill.getNama()) == 0 &&
+                masteryLevelOn(parent1Skills, naturalSkill.getNama()) == 0){
+            childSkills.add(naturalSkill);
+        }
 
         while(childSkills.size() < 4 && parent1Skills.size() > 0 && parent2Skills.size() > 0){
-            Skill s1 = parent1Skills.peek();
-            Skill s2 = parent2Skills.peek();
+            Skill s1 = parent1Skills.peek().clone();
+            Skill s2 = parent2Skills.peek().clone();
             if(s1.compareTo(s2) == -1){
                 if(masteryLevelOn(childSkills, s2.getNama()) == 0 &&
                 masteryLevelOn(parent1Skills, s2.getNama()) ==
@@ -80,13 +89,13 @@ public class Breeder {
 
         while(childSkills.size() < 4 && (parent1Skills.size() > 0 || parent2Skills.size() > 0)){
             if(parent1Skills.size() > 0){
-                Skill s1 = parent1Skills.peek();
+                Skill s1 = parent1Skills.peek().clone();
                 if(masteryLevelOn(childSkills, s1.getNama()) == 0){
                     childSkills.add(s1);
                 }
                 parent1Skills.poll();
             } else {
-                Skill s2 = parent2Skills.peek();
+                Skill s2 = parent2Skills.peek().clone();
                 if(masteryLevelOn(childSkills, s2.getNama()) == 0){
                     childSkills.add(s2);
                 }
@@ -152,7 +161,7 @@ public class Breeder {
     }
 
     private int masteryLevelOn(PriorityQueue<Skill> priorityQueue, String skillName){
-        PriorityQueue<Skill> priorityQueue1 = priorityQueue;
+        PriorityQueue<Skill> priorityQueue1 = new PriorityQueue<>(priorityQueue);
         boolean found = false;
         int retVal = 0;
         while (!priorityQueue1.isEmpty() && !found){

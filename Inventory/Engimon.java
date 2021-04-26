@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Engimon extends Entity implements Item{
     private int id;
@@ -132,12 +133,14 @@ public class Engimon extends Entity implements Item{
         System.out.println("Skills: ");
         for (Skill s: skills) {
             System.out.println("- " + s.getNama());
+            System.out.println("   - " + s.getMasteryLevel());
+            System.out.println("   - " + s.getBasePower());
         }
         System.out.println("Level: " + level);
         System.out.println("CumulXp: " +  cumulXp);
         System.out.println("Life: " + life);
-        System.out.println("Parent 1: " + parent1);
-        System.out.println("Parent 2: " + parent2);
+        System.out.println("Parent 1: " + parent1.getName() + ", Spesies: " + parent1.getSpecies());
+        System.out.println("Parent 2: " + parent2.getName() + ", Spesies: " + parent2.getSpecies());
     }
 
     @Override
@@ -152,10 +155,45 @@ public class Engimon extends Entity implements Item{
         wildEngimon.setLevel(wildEngimon.cumulXp/100 + 1);
         wildEngimon.setLife(1);
         wildEngimon.setNama(new WildEngimonNames().giveEngimonName(wildEngimon));
+        Engimon parent1 = new Engimon(wildEngimon.id, wildEngimon.species, wildEngimon.slogan, wildEngimon.maxExp);
+        Engimon parent2 = new Engimon(wildEngimon.id, wildEngimon.species, wildEngimon.slogan, wildEngimon.maxExp);
+        parent1.setElements(wildEngimon.getElements());
+        parent2.setElements(wildEngimon.getElements());
+        parent1.setNama(new WildEngimonNames().giveEngimonName(parent1));
+        parent2.setNama(new WildEngimonNames().giveEngimonName(parent2));
+        wildEngimon.setParents(parent1, parent2);
         return wildEngimon;
+    }
+
+    public Engimon cloneDefaultTamed(){
+        Random random = new Random();
+        Engimon tamedEngimon = new Engimon(this);
+        tamedEngimon.setCumulXp(0);
+        tamedEngimon.setLevel(1);
+        tamedEngimon.setLife(3);
+        System.out.println("Selamat, Anda mendapatkan engimon berspesies " + tamedEngimon.getSpecies());
+        System.out.println("Silakan beri nama engimon anda:");
+        Scanner sc = new Scanner(System.in);
+        String name = sc.nextLine();
+        tamedEngimon.setNama(name);
+        Engimon parent1 = new Engimon(tamedEngimon.id, tamedEngimon.species, tamedEngimon.slogan, tamedEngimon.maxExp);
+        Engimon parent2 = new Engimon(tamedEngimon.id, tamedEngimon.species, tamedEngimon.slogan, tamedEngimon.maxExp);
+        parent1.setElements(tamedEngimon.getElements());
+        parent2.setElements(tamedEngimon.getElements());
+        parent1.setNama(new WildEngimonNames().giveEngimonName(parent1));
+        parent2.setNama(new WildEngimonNames().giveEngimonName(parent2));
+        tamedEngimon.setParents(parent1, parent2);
+        System.out.println("Berikut adalah data dari engimonmu:");
+        tamedEngimon.showStat();
+        return tamedEngimon;
     }
 
     public void setMyInventoryEngimon(InventoryEngimon myInventoryEngimon) {
         this.myInventoryEngimon = myInventoryEngimon;
+    }
+
+    public void setParents(Engimon e1, Engimon e2) {
+        parent1 = e1;
+        parent2 = e2;
     }
 }

@@ -19,9 +19,11 @@ public class GameState {
         this.round = 1;
         this.initializer = new EngimonInitializer();
         this.player = new Player(0, 0);
+        for (int i = 0; i < 3; i++) {
+            player.addEngimon(initializer.getEngimon(random.nextInt(EngimonInitializer.getNumEngimon())).cloneDefaultTamed());
+        }
         world.addEntities(player, 0, 0);
         this.spawner = new Spawner(spawner.MIN_WILD + random.nextInt((spawner.MAX_WILD - spawner.MIN_WILD)), world, initializer);
-        // TODO: Give player 3 engimons in inventory
     }
 
     public void reload(){
@@ -50,22 +52,14 @@ public class GameState {
     public void executeCommand(String command) throws InvalidCommandException {
         switch (command){
             case "Move":
-                System.out.println("Silakan tentukan arah pergerakan anda (A/S/W/D): ");
-                Scanner scanner = new Scanner(System.in);
-                String dir = scanner.nextLine();
-                new MoveCommand(this, dir).execute();
-                break;
-            case "A":
-                for(int i = 0; i < world.getBaris(); i++){
-                    for (int j = 0; j < world.getKolom(); j++){
-                        if(world.getEntities(j, i) instanceof Engimon){
-                            ((Engimon) world.getEntities(j, i)).showStat();
-                        }
-                    }
-                }
+                new MoveCommand(this).execute();
                 break;
             case "Breed":
-                System.out.print("Silakan tentukan Engimon nomor mana saja yang ingin dikawinkan: ");
+                new BreedCommand(this).execute();
+                break;
+            case "Stat":
+                new ShowStatCommand(this).execute();
+                break;
             default:
                 throw new InvalidCommandException();
         }
@@ -84,6 +78,14 @@ public class GameState {
         player.setCoordinate(world.getCell(x, y));
     }
 
+    public Engimon getPlayerEngimonWithIndex(int idx){
+        return player.getMyInventoryEngimon().getSpesifikMember(idx);
+    }
+
+    public void addNewEngimon(Engimon newEngimon){
+        player.addEngimon(newEngimon);
+    }
+
     public String readCommand(){
         System.out.println("Silakan masukkan command pilihan anda:");
         System.out.println("Command yang dapat dimasukkan:");
@@ -99,5 +101,11 @@ public class GameState {
         Scanner sc = new Scanner(System.in);
         String command = sc.nextLine();
         return command;
+    }
+
+    public void showEngimonStat(){
+        for (Engimon e: player.getMyInventoryEngimon().getInventoryEngimon()) {
+            e.showStat();
+        }
     }
 }

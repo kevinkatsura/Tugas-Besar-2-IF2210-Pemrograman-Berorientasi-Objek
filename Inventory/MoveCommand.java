@@ -1,8 +1,13 @@
+import java.util.Scanner;
+
 public class MoveCommand extends Command{
     private String direction;
 
-    public MoveCommand(GameState gameState, String direction){
+    public MoveCommand(GameState gameState){
         super(gameState);
+        System.out.println("Silakan tentukan arah pergerakan anda (A/S/W/D): ");
+        Scanner scanner = new Scanner(System.in);
+        String dir = scanner.nextLine();
         this.direction = direction;
     }
 

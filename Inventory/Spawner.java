@@ -100,6 +100,10 @@ public class Spawner {
         }
     }
 
+    public static void removeEngimon(Engimon e){
+        wildEngimons.remove(e);
+    }
+
     public static int getCurrWildCount(){
         return currWildCount;
     }

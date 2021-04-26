@@ -4,6 +4,6 @@ public class Air extends Entity{
 
     @Override
     public Entity clone() {
-        return new Air(this);
+        return new Air(this) ;
     }
 }
