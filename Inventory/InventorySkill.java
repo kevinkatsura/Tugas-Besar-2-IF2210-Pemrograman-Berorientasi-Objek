@@ -1,40 +1,40 @@
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class InventorySkill extends Inventory<Skill>{
-    private Map<Skill,Integer> mapOfSkill;
+    private TreeMap<Skill,Integer> mapOfSkill;
 
     // Constructor
     public InventorySkill(){
-        mapOfSkill = new TreeMap<Skill,Integer>( new SortByBasePower());
+        mapOfSkill = new TreeMap<Skill,Integer>();
     }
-    @Override
-    public Skill getSpesifikMember(int index) {
+
+    public Map<Skill,Integer> getInventorSkill() {
         return mapOfSkill;
     }
 
-    public Map<Skill,Integer> getMapSkill() {
-        return mapOfSkill;
+    public int getSize() {
+        return mapOfSkill.size();
+    }
+
+    @Override
+    public Skill getSpesifikMember(int index) {
+        Set<Map.Entry<Skill, Integer> > entrySet = mapOfSkill.entrySet();
+        List<Map.Entry<Skill, Integer> > entryList = new ArrayList<>(entrySet);
+        return entryList.get(index).getKey();
     }
 
     @Override
     public void addMember(Skill newMember) {
-        if(mapOfSkill.containsKey(newMember)){
-            mapOfSkill.put(newMember,(k,v)->v+1);
-        }else{
-            mapOfSkill.put(newMember,1);
+        if ( totalMember >= max_capacity){
+            System.out.println("Inventory Penuh!"); // Sesuaikan sama GUI
+        } else{
+            int count = mapOfSkill.containsKey(newMember) ?mapOfSkill.get(newMember) : 0 ;
+            mapOfSkill.put(newMember,count + 1);
+            totalMember+=1;
         }
-        totalMember+=1;
+
     }
 }
 
-class SortByBasePower implements Comparator<Skill> {
-    @Override
-    public int compare(Skill o1, Skill o2) {
-        // Contoh return kalau berdasarkan base power : o1.basepower - o2.basepower
-        return 0;
-    }
-}
+
 
